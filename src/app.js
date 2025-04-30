@@ -10,7 +10,7 @@ app.disable('x-powered-by')
 
 const allowedOrigins = [
   'http://localhost:5173', 
-  'https://simplex-phpd.onrender.com/'
+  'https://simplex-phpd.onrender.com'
 ]
 
 // ---- Middleware ----
