@@ -8,15 +8,21 @@ const app = express()
 const PORT = process.env.PORT ?? 3000
 app.disable('x-powered-by') 
 
-const ACCEPTED_ORIGINS = {
-  origin: [
-    'http://localhost:5173', 
-    'https://simplex-phpd.onrender.com/'
-  ]
-}
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://simplex-phpd.onrender.com/'
+]
 
 // ---- Middleware ----
-app.use(cors(ACCEPTED_ORIGINS))
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not accepted by CORS'))
+    }
+  }
+}))
 app.use(express.json())
 app.use((req, res, next) => {
   //console.log('Middleware')
