@@ -9,7 +9,10 @@ const PORT = process.env.PORT ?? 3000
 app.disable('x-powered-by') 
 
 const ACCEPTED_ORIGINS = {
-  origin: ['http://localhost:5173']
+  origin: [
+    'http://localhost:5173', 
+    'https://simplex-phpd.onrender.com/'
+  ]
 }
 
 // ---- Middleware ----
