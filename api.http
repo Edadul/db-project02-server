@@ -1,0 +1,67 @@
+### main
+GET http://localhost:3000/
+
+### sayHi
+GET http://localhost:3000/hello
+
+### db
+GET http://localhost:3000/
+###
+GET http://localhost:3000/?label=user
+###
+GET http://localhost:3000/?label=product
+###
+GET http://localhost:3000/?label=supplier
+
+### --------------------------- USERS -------------------------------
+GET http://localhost:3000/users
+
+### users filtered by address
+GET http://localhost:3000/users?address=null
+
+### users filtered by rol
+GET http://localhost:3000/users?rol=client
+
+### can be many filters at the same time
+GET http://localhost:3000/users?address=barranquilla&rol=admin
+
+### ---------- Auth by ID -----------
+GET http://localhost:3000/users/4:469e1d14-453a-4acb-848e-f2ea9587efaa:5
+
+### ---------- Signing up -----------
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+{
+  "name": "Esteban", 
+  "lastName": "Dadul",
+  "id": "1043644655", 
+  "birthDate": "2005-06-06",
+  "address": "pto. Colombia",
+  "email": "edadul@gmail.com", 
+  "password": "edadul123", 
+  "rol": "client"
+}
+###
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "edadul@gmail.com",
+  "password": "edadul123",
+  "name": "asagsg"
+}
+
+### ---------------------------- PRODUCTS -------------------------------
+GET http://localhost:3000/products
+###
+GET http://localhost:3000/products?unitPrice=1000
+###
+GET http://localhost:3000/products/4:469e1d14-453a-4acb-848e-f2ea9587efaa:0
+
+### ------------------------ SUPPLIERS -----------------
+GET http://localhost:3000/suppliers
+###
+GET http://localhost:3000/suppliers?name=Gadgets%20Co.
+###
+GET http://localhost:3000/suppliers?nit=123456789 

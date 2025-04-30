@@ -1,0 +1,158 @@
+{
+  "users": [
+    {
+      "name": {
+        "first": "Esteban",
+        "last": "Dadul"
+      },
+      "dni": "0000000000",
+      "address": "pto. colombia",
+      "email": "edadul@gmail.com",
+      "birthDate": "2005-06-06",
+      "age": 19,
+      "type": "admin"
+    },
+    {
+      "name": {
+        "first": "Carlos",
+        "last": "Arango"
+      },
+      "dni": "0000000001",
+      "address": "barranquilla",
+      "email": "carango@gmail.com",
+      "birthDate": "2004-08-07",
+      "age": 20,
+      "type": "admin"
+    },
+    {
+      "name": {
+        "first": "Judith",
+        "last": "Perez"
+      },
+      "dni": "0000000002",
+      "address": "barranquilla",
+      "email": "jpconde@gmail.com",
+      "birthDate": "1600-11-01",
+      "age": 20,
+      "type": "client"
+    },
+    {
+      "name": {
+        "first": "Andres",
+        "last": "Monserrat"
+      },
+      "dni": "0000000003",
+      "address": "barranquilla",
+      "email": "monserrata@gmail.com",
+      "birthDate": "2004-04-13",
+      "age": 20,
+      "type": "client"
+    }
+  ],
+
+  "suppliers": [
+    {
+      "nit": "NIT-123456789",
+      "name": "TechGlobal Solutions Inc.",
+      "address": "123 Silicon Valley Blvd, San Francisco, CA 94025, USA"
+    },
+    {
+      "nit": "NIT-987654321",
+      "name": "ElectroParts Distributors",
+      "address": "456 Circuit Lane, Austin, TX 78701, USA"
+    },
+    {
+      "nit": "NIT-AB-2024-001",
+      "name": "GadgetWorld International",
+      "address": "789 Innovation Park, Seoul, South Korea"
+    },
+    {
+      "nit": "NIT-XY-555-2023",
+      "name": "Prime Electronics Ltd.",
+      "address": "321 High-Tech Zone, Shenzhen, China"
+    },
+    {
+      "nit": "NIT-ES-789456",
+      "name": "EuroTech Suppliers",
+      "address": "10 Industrial Avenue, Berlin, Germany"
+    },
+    {
+      "nit": "NIT-LA-2025-X1",
+      "name": "Latin Components S.A.",
+      "address": "222 Tech Plaza, Mexico City, Mexico"
+    },
+    {
+      "nit": "NIT-IND-456123",
+      "name": "Bharat Electronics Corp.",
+      "address": "55 Digital District, Bangalore, India"
+    },
+    {
+      "nit": "NIT-JP-789123",
+      "name": "Sakura Tech Supplies",
+      "address": "8 Shibuya Crossings, Tokyo, Japan"
+    },
+    {
+      "nit": "NIT-CA-321654",
+      "name": "Northern Electronics",
+      "address": "99 Maple Street, Toronto, Canada"
+    },
+    {
+      "nit": "NIT-UK-852963",
+      "name": "BritTech Logistics",
+      "address": "15 Oxford Circuit, London, UK"
+    }
+  ],
+
+  "products": [
+    {
+      "id": "P-1001",
+      "name": "HP 15-dw1024la Laptop",
+      "unitPrice": 899.99
+    },
+    {
+      "id": "P-205S",
+      "name": "Samsung Galaxy S21 Smartphone",
+      "unitPrice": 749.99
+    },
+    {
+      "id": "P-3K10",
+      "name": "Redragon K552 Mechanical Keyboard",
+      "unitPrice": 59.99
+    },
+    {
+      "id": "P-4M15",
+      "name": "Logitech M720 Wireless Mouse",
+      "unitPrice": 39.99
+    },
+    {
+      "id": "P-520M",
+      "name": "LG 24-inch Full HD Monitor",
+      "unitPrice": 159.99
+    },
+    {
+      "id": "P-6H25",
+      "name": "Sony WH-CH510 Headphones",
+      "unitPrice": 49.99
+    },
+    {
+      "id": "P-7D30",
+      "name": "Seagate 1TB External Hard Drive",
+      "unitPrice": 54.99
+    },
+    {
+      "id": "P-8E35",
+      "name": "Epson EcoTank L3150 Printer",
+      "unitPrice": 229.99
+    },
+    {
+      "id": "P-9T40",
+      "name": "Amazon Fire HD 10 Tablet",
+      "unitPrice": 149.99
+    },
+    {
+      "id": "P-A5S",
+      "name": "JBL Flip 5 Bluetooth Speaker",
+      "unitPrice": 119.99
+    }
+  ]
+}
