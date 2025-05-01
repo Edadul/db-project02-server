@@ -9,5 +9,3 @@ const driver = neo4j.driver(url, neo4j.auth.basic(user, password))
 export const createConnection = () => {
   return driver.session({ database: 'neo4j' })
 }
-
-//export const ALLOWED_LABELS = ['PRODUCT']

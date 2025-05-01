@@ -35,10 +35,10 @@ Content-Type: application/json
 {
   "name": "Esteban", 
   "lastName": "Dadul",
-  "id": "1043644655", 
+  "id": "1043644656", 
   "birthDate": "2005-06-06",
   "address": "pto. Colombia",
-  "email": "edadul@gmail.com", 
+  "email": "asfgasfl@gmail.com", 
   "password": "edadul123", 
   "rol": "client"
 }
@@ -48,8 +48,7 @@ Content-Type: application/json
 
 {
   "email": "edadul@gmail.com",
-  "password": "edadul123",
-  "name": "asagsg"
+  "password": "edadul123"
 }
 
 ### ---------------------------- PRODUCTS -------------------------------
@@ -65,3 +64,17 @@ GET http://localhost:3000/suppliers
 GET http://localhost:3000/suppliers?name=Gadgets%20Co.
 ###
 GET http://localhost:3000/suppliers?nit=123456789 
+
+
+--------------- PURCHASE --------------
+###
+POST http://localhost:3000/users/purchase
+Content-Type: application/json
+
+{
+  "products": [
+    {"productCode": "P004", "quantity": 3},
+    {"productCode": "P002", "quantity": 19}
+  ],
+  "userId": "4:469e1d14-453a-4acb-848e-f2ea9587efaa:7" 
+}

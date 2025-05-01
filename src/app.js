@@ -1,12 +1,12 @@
 import express from 'express'
 import cors from 'cors'
-import { getAllNodes, getNodeById, getNodeByLabel, login, signUp } from './database/requests.js'
+import { getAllNodes, getNodeById, getNodeByLabel, login, purchase, signUp } from './database/requests.js'
 import { filterByProperties } from './utils/db-filters.js'
 import { validateUser } from './validators/validate-user.js'
 
 const app = express()
 const PORT = process.env.PORT ?? 3000
-app.disable('x-powered-by') 
+app.disable('x-powered-by')
 
 const allowedOrigins = [
   'http://localhost:5173', 
@@ -106,7 +106,7 @@ app.post('/users/signup', async (req, res) => {
     })
   } catch (error) {
     console.log(error)
-    res.status(400).send('User already exists')
+    res.status(400).json({message: 'User already exists'})
   }
 })
 
@@ -127,8 +127,15 @@ app.post('/users/login', async (req, res) => {
     }
     return res.json(log)
   } catch (error) {
-    return res.status(400).json(error.message)
+    return res.status(400).json({message: error.message})
   }
+})
+
+app.post('/users/purchase', async (req, res) => {
+  const { products, userId } = req.body
+
+  const data = await purchase(products, userId)
+  res.json({data})
 })
 
 app.get('/products', async (req, res) => {
