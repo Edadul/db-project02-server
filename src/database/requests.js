@@ -46,6 +46,66 @@ export const getNodeById = async (id) => {
   return node
 }
 
+export const deleteNode = async (pk, pk_name, label) => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:${label} {${pk_name}: $pk}) DELETE n`
+
+  const res = await connection.run(query, { pk })
+  await connection.close()
+  return res
+}
+
+export const addProduct = async (params) => {
+  const connection = createConnection()
+
+  const query = `CREATE (n:PRODUCT {code: $code, name: $name, unitPrice: $unitPrice}) RETURN n`
+
+  const res = await connection.run(query, params)
+  await connection.close()
+  return res
+}
+
+export const addSupplier = async (params) => {
+  const connection = createConnection()
+
+  const query = `CREATE (n:SUPPLIER {nit: $nit, name: $name, address: $address}) RETURN n`
+
+  const res = await connection.run(query, params)
+  await connection.close()
+  return res
+}
+
+export const updateProduct = async (params) => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:PRODUCT {code: $lastCode}) SET n.code = $code SET n.name = $name SET n.unitPrice = $unitPrice`
+
+  const res = await connection.run(query, params)
+  await connection.close()
+  return res
+}
+
+export const updateSupplier = async (params) => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:SUPPLIER {nit: $lastNit}) SET n.nit = $nit SET n.name = $name SET n.address = $address`
+
+  const res = await connection.run(query, params)
+  await connection.close()
+  return res
+}
+
+export const updateUser = async (params) => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:USER {email: $lastEmail}) SET n.id = $id SET n.name = $name SET n.lastName = $lastName SET n.birthDate = $birthDate SET n.address = $address SET n.email = $email SET n.password = $password`
+
+  const res = await connection.run(query, params)
+  await connection.close()
+  return res
+}
+
 export const signUp = async (params) => {
   const connection = createConnection()
 
@@ -99,4 +159,103 @@ export const purchase = async (list, userId) => {
   await connection.close()
 
   return res.records[0]._fields[0]
+}
+
+export const consult1 = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:USER)-[r:MADE]-(p:PURCHASE) WITH n, COUNT(r) AS total_orders RETURN n.id as client_id, n.name as client_name, total_orders`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let users = []
+  for (let i in records) {
+    let user = {
+      clientId: records[i]._fields[0],
+      clientName: records[i]._fields[1],
+      totalPurchases: records[i]._fields[2].low
+    }
+    users.push(user)
+  }
+
+  return users
+}
+
+export const consult2 = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (n:USER) WHERE NOT EXISTS { (n)-[r:MADE]->(p:PURCHASE) } RETURN n.id as client_id, n.name as client_name`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let users = []
+  for (let i in records) {
+    let user = {
+      clientId: records[i]._fields[0],
+      clientName: records[i]._fields[1],
+    }
+
+    if (!user.clientId) continue
+    users.push(user)
+  }
+
+  return users
+}
+
+export const consult3 = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (u:USER)-[m:MADE]-(p:PURCHASE)-[c:CONTAINS]->(pr:PRODUCT), (pr)<-[prv:PROVIDE]-(s:SUPPLIER) RETURN u.name as client_name, pr.name as product_name, c.quantity as quantity, pr.unitPrice, pr.unitPrice * c.quantity AS subTotal, s.name as supplier_name`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let users = []
+  for (let i in records) {
+    let user = {
+      clientName: records[i]._fields[0],
+      productName: records[i]._fields[1],
+      quantity: records[i]._fields[2].low,
+      unitPrice: records[i]._fields[3],
+      subTotal: records[i]._fields[4],
+      supplierName: records[i]._fields[5],
+    }
+
+    users.push(user)
+  }
+
+  return users
+}
+
+export const consult4 = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (pr)<-[prv:PROVIDE]-(s:SUPPLIER) RETURN pr.code as product_code, pr.name as product_name, s.name as supplier_name, s.nit as supplier_nit`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let users = []
+  for (let i in records) {
+    let user = {
+      productCode: records[i]._fields[0],
+      productName: records[i]._fields[1],
+      supplierName: records[i]._fields[2],
+      supplierNit: records[i]._fields[3],
+    }
+
+    users.push(user)
+  }
+
+  return users
 }

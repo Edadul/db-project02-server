@@ -47,8 +47,8 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-  "email": "edadul@gmail.com",
-  "password": "edadul123"
+  "email": "carango@gmail.com",
+  "password": "carango123"
 }
 
 ### ---------------------------- PRODUCTS -------------------------------
@@ -78,3 +78,34 @@ Content-Type: application/json
   ],
   "userId": "4:469e1d14-453a-4acb-848e-f2ea9587efaa:7" 
 }
+
+###
+GET http://localhost:3000/products/delete/P001
+###
+POST http://localhost:3000/products/add
+Content-Type: application/json
+
+{
+  "code": "P005",
+  "name": "Abanico",
+  "unitPrice": 99.0
+}
+
+###
+POST http://localhost:3000/products/update
+Content-Type: application/json
+
+{
+  "code": "P005",
+  "name": "Abanico",
+  "unitPrice": 99.0
+}
+
+###
+GET http://localhost:3000/consult1
+###
+GET http://localhost:3000/consult2
+###
+GET http://localhost:3000/consult3
+###
+GET http://localhost:3000/consult4

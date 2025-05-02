@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { getAllNodes, getNodeById, getNodeByLabel, login, purchase, signUp } from './database/requests.js'
+import { getAllNodes, getNodeById, getNodeByLabel, deleteNode, login, purchase, signUp, addProduct, updateProduct, updateUser, addSupplier, updateSupplier, consult1, consult2, consult3, consult4 } from './database/requests.js'
 import { filterByProperties } from './utils/db-filters.js'
 import { validateUser } from './validators/validate-user.js'
 
@@ -66,6 +66,7 @@ app.get('/users', async (req, res) => {
 
   let users = []
   for (let i in data) {
+    if (data[i].properties.rol === 'admin') continue
     users.push(data[i].properties)
   }
 
@@ -123,7 +124,7 @@ app.post('/users/login', async (req, res) => {
     const log = {
       elementId: userData.elementId,
       properties: userData.properties,
-      url: `/users/${userData.elementId}`
+      url: `/${userData.properties.rol}/${userData.elementId}`
     }
     return res.json(log)
   } catch (error) {
@@ -134,8 +135,38 @@ app.post('/users/login', async (req, res) => {
 app.post('/users/purchase', async (req, res) => {
   const { products, userId } = req.body
 
-  const data = await purchase(products, userId)
-  res.json({data})
+  try {
+    const data = await purchase(products, userId)
+    return res.json({data})
+  } catch (error) {
+    return res.status(500).json({message: 'Something went wrong'})
+  }
+})
+
+app.get('/users/delete/:email', async (req, res) => {
+  const {email} = req.params
+
+  try {
+    const data = await deleteNode(email, 'email', 'USER')
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('it still has relationships')) {
+      return res.status(400).json('This node still has relationships')
+    }
+    return res.status(500).json(error.message)
+  }
+})
+
+app.post('/users/update', async (req, res) => {
+  const params = req.body
+
+  try {
+    const data = await updateUser(params)
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('already exists')) return res.status(400).json({message: 'There is another user with this email'})
+    return res.status(500).json(error.message)
+  }
 })
 
 app.get('/products', async (req, res) => {
@@ -162,6 +193,86 @@ app.get('/products/:id', async (req, res) => {
   res.json(product)
 })
 
+app.post('/products/add/', async (req, res) => {
+  const params = req.body
+
+  try {
+    const data = await addProduct(params)
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('already exists')){
+      return res.status(400).json({message: 'Product with this code already exists'})
+    }
+    return res.status(500).json(error.message)
+  }
+})
+
+app.post('/suppliers/add', async (req, res) => {
+  const params = req.body
+
+  try {
+    const data = await addSupplier(params)
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('already exists')){
+      return res.status(400).json({message: 'Supplier with this nit already exists'})
+    }
+    return res.status(500).json(error.message)
+  }
+})
+
+app.get('/suppliers/delete/:nit', async (req, res) => {
+  const { nit } = req.params
+
+  try {
+    const data = await deleteNode(nit, 'nit', 'SUPPLIER')
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('it still has relationships')) {
+      return res.status(400).json('This node still has relationships')
+    }
+    return res.status(500).json(error.message)
+  }
+})
+
+app.get('/products/delete/:code', async (req, res) => {
+  const { code } = req.params
+
+  try {
+    const data = await deleteNode(code, 'code', 'PRODUCT')
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('it still has relationships')) {
+      return res.status(400).json('This node still has relationships')
+    }
+    return res.status(500).json(error.message)
+  }
+})
+
+app.post('/products/update', async (req, res) => {
+  const params = req.body
+
+  try {
+    const data = await updateProduct(params)
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('already exists')) return res.status(400).json({message: 'There is another product with this code'})
+    return res.status(500).json(error.message)
+  }
+})
+
+app.post('/suppliers/update', async (req, res) => {
+  const params = req.body
+
+  try {
+    const data = await updateSupplier(params)
+    return res.json(data)
+  } catch (error) {
+    if (error.message.includes('already exists')) return res.status(400).json({message: 'There is another supplier with this code'})
+    return res.status(500).json(error.message)
+  }
+})
+
 app.get('/suppliers', async (req, res) => {
   const filters = req.query
   const data = await getNodeByLabel('SUPPLIER')
@@ -173,6 +284,30 @@ app.get('/suppliers', async (req, res) => {
 
   const fs = filterByProperties(suppliers, filters)
   res.json(fs)
+})
+
+app.get('/consult1', async (req, res) => {
+  const data = await consult1()
+
+  res.json(data)
+})
+
+app.get('/consult2', async (req, res) => {
+  const data = await consult2()
+
+  res.json(data)
+})
+
+app.get('/consult3', async (req, res) => {
+  const data = await consult3()
+
+  res.json(data)
+})
+
+app.get('/consult4', async (req, res) => {
+  const data = await consult4()
+
+  res.json(data)
 })
 
 app.use((req, res) => {
