@@ -11,7 +11,7 @@ app.disable('x-powered-by')
 const allowedOrigins = [
   'http://localhost:5173', 
   'https://db-project02.onrender.com',
-  'https://db-project02.vercel.app/'
+  'https://db-project02.vercel.app'
 ]
 
 // ---- Middleware ----
