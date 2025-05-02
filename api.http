@@ -109,3 +109,7 @@ GET http://localhost:3000/consult2
 GET http://localhost:3000/consult3
 ###
 GET http://localhost:3000/consult4
+###
+GET http://localhost:3000/purchases
+###
+GET http://localhost:3000/supplies

@@ -114,7 +114,7 @@ export const signUp = async (params) => {
     if (!params[key]) params[key] = 'null'
   }
 
-  const query = `CREATE (u:USER {name: $name, lastName: $lastName, id: $id, birthDate: $birthDate, address: $address, email: $email, password: $password, rol: "client"}) RETURN u`
+  const query = `CREATE (u:USER {name: $name, lastName: $lastName, id: $id, birthDate: $birthDate, address: $address, email: $email, password: $password, rol: "user"}) RETURN u`
 
   const res = await connection.run(query, params)
   const user = res.records[0].get('u')
@@ -136,7 +136,7 @@ export const login = async (data) => {
     const user = res.records[0].get('u')
     return user
   } else {
-    throw new Error('No found user')
+    throw new Error('Invalid email or password')
   }
 }
 
@@ -258,4 +258,53 @@ export const consult4 = async () => {
   }
 
   return users
+}
+
+export const purchases = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (u:USER)-[r]-(p) RETURN u.id as client_id, u.name as client_name, p.id as purchase_id`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let users = []
+  for (let i in records) {
+    let user = {
+      userId: records[i]._fields[0],
+      userName: records[i]._fields[1],
+      purchaseId: records[i]._fields[2],
+    }
+
+    users.push(user)
+  }
+
+  return users
+}
+
+export const supplies = async () => {
+  const connection = createConnection()
+
+  const query = `MATCH (s:SUPPLIER)-[r]-(p) RETURN s.nit as supplierNit, s.name as supplierName, p.name as productName, p.code as productCode`
+
+  const res = await connection.run(query)
+  await connection.close()
+
+  const records = await res.records
+
+  let supplies = []
+  for (let i in records) {
+    let supply = {
+      supplierNit: records[i]._fields[0],
+      supplierName: records[i]._fields[1],
+      productName: records[i]._fields[2],
+      productCode: records[i]._fields[3],
+    }
+
+    supplies.push(supply)
+  }
+
+  return supplies
 }

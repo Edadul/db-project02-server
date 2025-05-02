@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { getAllNodes, getNodeById, getNodeByLabel, deleteNode, login, purchase, signUp, addProduct, updateProduct, updateUser, addSupplier, updateSupplier, consult1, consult2, consult3, consult4 } from './database/requests.js'
+import { getAllNodes, getNodeById, getNodeByLabel, deleteNode, login, purchase, signUp, addProduct, updateProduct, updateUser, addSupplier, updateSupplier, consult1, consult2, consult3, consult4, purchases, supplies } from './database/requests.js'
 import { filterByProperties } from './utils/db-filters.js'
 import { validateUser } from './validators/validate-user.js'
 
@@ -103,7 +103,7 @@ app.post('/users/signup', async (req, res) => {
         email: userData.data.email
       },
       elementId: newUser.elementId,
-      url: `/users/${newUser.elementId}`
+      url: `/${newUser.properties.rol}/${newUser.elementId}`
     })
   } catch (error) {
     console.log(error)
@@ -284,6 +284,18 @@ app.get('/suppliers', async (req, res) => {
 
   const fs = filterByProperties(suppliers, filters)
   res.json(fs)
+})
+
+app.get('/purchases', async (req, res) => {
+  const data = await purchases()
+
+  res.json(data)
+})
+
+app.get('/supplies', async (req, res) => {
+  const data = await supplies()
+
+  res.json(data)
 })
 
 app.get('/consult1', async (req, res) => {
